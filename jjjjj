@@ -1,15 +1,14 @@
-Como le pongo mi libreria a este hub 
+-- RENACIMIENTOKING HUB
 
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/HonnyDezz/pruebas/refs/heads/main/libreria%203"))()
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/velazcoian1-dotcom/iann_320/refs/heads/main/jjjjj"))()
 
 local window = library:AddWindow("IAN PRIVATE | OP Rebirth/Strength", {
-    main_color = Color3.fromRGB(20, 20, 20),     -- Negro oscuro
-    tab_color = Color3.fromRGB(30, 30, 30),
-    text_color = Color3.fromRGB(255, 255, 255), -- Texto blanco
-    min_size = Vector2.new(340, 490),
+    main_color = Color3.fromRGB(20,20,20),
+    tab_color = Color3.fromRGB(30,30,30),
+    text_color = Color3.fromRGB(255,255,255),
+    min_size = Vector2.new(340,490),
     can_minimize = true
 })
-
 -- Servicios globales
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
