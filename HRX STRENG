@@ -1,0 +1,65 @@
+local farm = window:AddTab("HRX FARM AFK")
+
+local LP = game.Players.LocalPlayer
+local RS = game:GetService("ReplicatedStorage")
+local VIM = game:GetService("VirtualInputManager")
+
+local JUNGLE_POS = CFrame.new(-8652.8672, 29.2667, 2089.2617)
+
+-- QUITAR LAG
+local function AntiLag()
+    for i,v in pairs(workspace:GetDescendants()) do
+        if v:IsA("ParticleEmitter") or v:IsA("Trail") then v:Destroy() end
+    end
+    settings().Rendering.QualityLevel = 1
+end
+
+-- FUNCION PRINCIPAL: TP + E + FARM
+local function StartFarm()
+    task.spawn(function()
+        while _G.AutoJungle do
+            pcall(function()
+                local char = LP.Character
+                if char and char:FindFirstChild("HumanoidRootPart") then
+                    -- 1. TP A LA MAQUINA DE LA JUNGLA
+                    char.HumanoidRootPart.CFrame = JUNGLE_POS
+                    task.wait(0.4)
+                    
+                    -- 2. AUTO APRETAR E PARA ENTRAR
+                    VIM:SendKeyEvent(true, Enum.KeyCode.E, false, game)
+                    task.wait(0.1)
+                    VIM:SendKeyEvent(false, Enum.KeyCode.E, false, game)
+                    task.wait(0.3)
+                    
+                    -- 3. EQUIPAR PESA
+                    local tool = LP.Backpack:FindFirstChild("Weight")
+                    if tool then char.Humanoid:EquipTool(tool) end
+                    
+                    -- 4. HACER FUERZA RAPIDO
+                    RS.rEvents.liftweightsEvent:FireServer(1)
+                    
+                    -- 5. OCULTAR PETS PARA MAS FPS
+                    RS.rEvents.showPetsEvent:FireServer("hidePets")
+                end
+            end)
+            task.wait(0.05) -- mientras más bajo más rápido hace fuerza
+        end
+    end)
+end
+
+-- BOTON MANUAL POR SI ACASO
+farm:AddButton("Iniciar Farm Manual", function()
+    _G.AutoJungle = true
+    StartFarm()
+    library:Notification("💙 Farm Iniciado")
+end)
+
+-- ESTO HACE QUE SE EJECUTE SOLO AL ENTRAR
+task.spawn(function()
+    task.wait(4) -- espera 4 seg a que cargue el juego
+    AntiLag()
+    task.wait(1)
+    _G.AutoJungle = true
+    StartFarm()
+    library:Notification("💙 CLAN HRX\nAuto Farm ON al entrar")
+end)
