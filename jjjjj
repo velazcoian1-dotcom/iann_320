@@ -1,0 +1,262 @@
+Como le pongo mi libreria a este hub 
+
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/HonnyDezz/pruebas/refs/heads/main/libreria%203"))()
+
+local window = library:AddWindow("IAN PRIVATE | OP Rebirth/Strength", {
+    main_color = Color3.fromRGB(20, 20, 20),     -- Negro oscuro
+    tab_color = Color3.fromRGB(30, 30, 30),
+    text_color = Color3.fromRGB(255, 255, 255), -- Texto blanco
+    min_size = Vector2.new(340, 490),
+    can_minimize = true
+})
+
+-- Servicios globales
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
+local TeleportService = game:GetService("TeleportService")
+local VirtualInputManager = game:GetService("VirtualInputManager")
+
+local ee = window:AddTab("HRX 1/Rebirth")
+
+-- 1. CORRECCIÓN JUNGLE LIFT
+ee:AddButton("Jungle lift (No Anim)", function()
+    local player = game.Players.LocalPlayer
+    local char = player.Character or player.CharacterAdded:Wait()
+    local humanoid = char:FindFirstChildOfClass("Humanoid")
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+
+    if hrp and humanoid then
+        for _, track in pairs(humanoid:GetPlayingAnimationTracks()) do
+            track:Stop()
+        end
+
+        hrp.CFrame = CFrame.new(-8652.8672, 29.2667, 2089.2617)
+        task.wait(0.3)
+
+        pcall(function()
+            VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
+            task.wait(0.05)
+            VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game)
+        end)
+
+        task.spawn(function()
+            for i = 1, 20 do
+                local backpack = player:FindFirstChild("Backpack")
+                if backpack then
+                    for _, tool in pairs(backpack:GetChildren()) do
+                        if tool:IsA("Tool") then
+                            humanoid:EquipTool(tool)
+                        end
+                    end
+                end
+                task.wait(0.1)
+            end
+        end)
+
+        local animCon
+        animCon = humanoid.AnimationPlayed:Connect(function(track)
+            track:Stop()
+        end)
+        
+        task.delay(5, function()
+            if animCon then animCon:Disconnect() end
+        end)
+    end
+end)
+
+-- =====================================
+-- 🔹 Mega Fast REBIRTH / 1 SEG
+-- =====================================
+ee:AddButton("MEGA Fast REBIRTH", function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/KkZMwGr2"))()
+end)
+
+ee:AddButton("Hide All Frames", function(bool)
+    loadstring(game:HttpGet("https://pastebin.com/raw/ggYYhk0J"))()
+end)
+
+ee:AddButton("Anti AFK", function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/r37Ct26d"))()
+end)
+
+ee:AddButton("Ocultar Pets", function()
+    game:GetService("ReplicatedStorage").rEvents.showPetsEvent:FireServer("hidePets")
+end)
+
+ee:AddSwitch("Auto Weight", function(Value)
+    _G.AutoWeight = Value
+    if Value then
+        local tool = LocalPlayer.Backpack:FindFirstChild("Weight")
+        if tool then LocalPlayer.Character.Humanoid:EquipTool(tool) end
+        task.spawn(function()
+            while _G.AutoWeight do
+                LocalPlayer.muscleEvent:FireServer("rep")
+                task.wait(0.1)
+            end
+        end)
+    end
+end)
+
+ee:AddSwitch("Auto Size 2", function(state)
+    autoSizeEnabled = state
+    if autoSizeEnabled then
+        task.spawn(function()
+            local remote = game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("changeSpeedSizeRemote")
+            while autoSizeEnabled do
+                local character = LocalPlayer.Character
+                if character and character:FindFirstChild("Humanoid") then
+                    remote:InvokeServer("changeSize", 2)
+                end
+                task.wait(0.5)
+            end
+        end)
+    end
+end)
+
+ee:AddSwitch("Eliminar Animacion Weight", function(state)
+    local targetId = "3623707777"
+    _G.KillMeshActive = state
+    if state then
+        task.spawn(function()
+            while _G.KillMeshActive do
+                for _, v in pairs(game.Workspace:GetDescendants()) do
+                    if (v:IsA("MeshPart") or v:IsA("SpecialMesh")) and string.find(tostring(v.MeshId), targetId) then
+                        v:Destroy()
+                    end
+                end
+                task.wait(1)
+            end
+        end)
+    end
+end)
+
+ee:AddSwitch("Lock Position", function(bool)
+    if bool then
+        local hrp = LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+        if hrp then
+            local cf = hrp.CFrame
+            _G.lockPos = RunService.Stepped:Connect(function()
+                if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                    LocalPlayer.Character.HumanoidRootPart.CFrame = cf
+                end
+            end)
+        end
+    else
+        if _G.lockPos then _G.lockPos:Disconnect() end
+    end
+end)
+
+ee:AddButton("Eliminar Imagen/Rebirth", function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/yAtDKUFt"))()
+end)
+
+ee:AddButton("Jungle Lift", function()
+    local player = game.Players.LocalPlayer
+    local char = player.Character or player.CharacterAdded:Wait()
+    local hrp = char:WaitForChild("HumanoidRootPart")
+
+    hrp.CFrame = CFrame.new(-8652.8672, 29.2667, 2089.2617)
+    task.wait(0.2)
+
+    VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
+    task.wait(0.05)
+    VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game)
+end)
+
+ee:AddButton("Ocultar Rank Labels", function()
+    for _, descendant in pairs(game.Workspace:GetDescendants()) do
+        if descendant.Name == "rankLabel" then descendant.Visible = false end
+    end
+end)
+
+ee:AddButton("Eliminar Particulas Rebirth", function()
+    local ids = {"2796974629", "3111907185"}
+    for _, v in pairs(game:GetDescendants()) do
+        if v:IsA("ParticleEmitter") then
+            for _, id in pairs(ids) do
+                if string.find(tostring(v.Texture), id) then v:Destroy() end
+            end
+        end
+    end
+end)
+
+ee:AddSwitch("Forzar Tamaño 2 (Anti-Rebirth)", function(state)
+    _G.ForceSize2 = state
+    if state then
+        task.spawn(function()
+            local remote = ReplicatedStorage:WaitForChild("rEvents"):WaitForChild("changeSpeedSizeRemote")
+            while _G.ForceSize2 do
+                local char = LocalPlayer.Character
+                if char and char:FindFirstChild("Humanoid") then
+                    pcall(function()
+                        remote:InvokeServer("changeSize", 2)
+                    end)
+                end
+                task.wait(0.5)
+            end
+        end)
+    end
+end)
+
+ee:AddButton("Teleport a Coordenadas", function()
+    local player = game.Players.LocalPlayer
+    local character = player.Character
+    if character and character:FindFirstChild("HumanoidRootPart") then
+        character.HumanoidRootPart.CFrame = CFrame.new(16.24, 83.115, 155.939)
+    end
+end)
+
+ee:AddButton("Eliminar Efectos/Lags", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/juywvm/-Roblox-Projects-/main/____Anti_Afk_Remastered_______"))()
+end)
+
+ee:AddButton("Rebirth Scanner", function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/fLpXDcMh"))()
+end)
+
+-- Auto rejoin si hay error
+spawn(function()
+    repeat task.wait() until game.CoreGui:FindFirstChild("RobloxPromptGui")
+    local po = game.CoreGui.RobloxPromptGui.promptOverlay
+    po.ChildAdded:Connect(function(a)
+        if a.Name == "ErrorPrompt" then
+            task.wait(2)
+            TeleportService:Teleport(game.PlaceId, LocalPlayer)
+        end
+    end)
+end)
+
+-- AutoStart
+local function EjecutarAutoStart()
+    print("[AutoStart] Ejecutando procesos...")
+    
+    pcall(function()
+        local char = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+        local hrp = char:WaitForChild("HumanoidRootPart")
+        hrp.CFrame = CFrame.new(-8652.8672, 29.2667, 2089.2617)
+        task.wait(0.5)
+        VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
+        task.wait(0.05)
+        VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game)
+    end)
+
+    pcall(function() loadstring(game:HttpGet("https://pastebin.com/raw/ggYYhk0J"))() end)
+    pcall(function() loadstring(game:HttpGet("https://pastebin.com/raw/KkZMwGr2"))() end)
+    pcall(function() loadstring(game:HttpGet("https://pastebin.com/raw/r37Ct26d"))() end)
+    pcall(function() loadstring(game:HttpGet("https://pastebin.com/raw/yAtDKUFt"))() end)
+    pcall(function() loadstring(game:HttpGet("https://pastebin.com/raw/fLpXDcMh"))() end)
+    pcall(function() ReplicatedStorage.rEvents.showPetsEvent:FireServer("hidePets") end)
+
+    pcall(function()
+        library:Notification("🔥 AutoStart Activo")
+    end)
+end
+
+task.spawn(EjecutarAutoStart)
+
+LocalPlayer.CharacterAdded:Connect(function()
+    task.wait(3) 
+    EjecutarAutoStart()
+end)
