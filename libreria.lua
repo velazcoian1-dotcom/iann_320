@@ -1,6 +1,6 @@
 -- RENACIMIENTOKING HUB
 
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/velazcoian1-dotcom/iann_320/refs/heads/main/jjjjj"))()
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/velazcoian1-dotcom/iann_320/refs/heads/main/libreria.lua"))()
 
 local window = library:AddWindow("IAN PRIVATE | OP Rebirth/Strength", {
     main_color = Color3.fromRGB(20,20,20),
